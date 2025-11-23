@@ -1,0 +1,172 @@
+return {
+    'goolord/alpha-nvim',
+    event = 'VimEnter',
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    config = function()
+        local alpha = require 'alpha'
+        local dashboard = require 'alpha.themes.dashboard'
+
+        -- Multiple ASCII art options (rotates randomly)
+        local headers = {
+            -- Header 1: NEOVIM
+            {
+                '                                                     ',
+                '  ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ██╗ ',
+                '  ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗  ██║ ',
+                '  ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔██╗ ██║ ',
+                '  ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╗██║ ',
+                '  ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚████║ ',
+                '  ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝  ╚═══╝ ',
+                '                                                     ',
+            },
+            -- Header 2: Simple
+            {
+                '                                                     ',
+                '                                                     ',
+                '                                                     ',
+                '   ⣴⣶⣤⡤⠦⣤⣀⣤⠆     ⣈⣭⣿⣶⣿⣦⣼⣆          ',
+                '    ⠉⠻⢿⣿⠿⣿⣿⣶⣦⠤⠄⡠⢾⣿⣿⡿⠋⠉⠉⠻⣿⣿⡛⣦       ',
+                '          ⠈⢿⣿⣟⠦ ⣾⣿⣿⣷    ⠻⠿⢿⣿⣧⣄     ',
+                '           ⣸⣿⣿⢧ ⢻⠻⣿⣿⣷⣄⣀⠄⠢⣀⡀⠈⠙⠿⠄    ',
+                '          ⢠⣿⣿⣿⠈    ⣻⣿⣿⣿⣿⣿⣿⣿⣛⣳⣤⣀⣀   ',
+                '   ⢠⣧⣶⣥⡤⢄ ⣸⣿⣿⠘  ⢀⣴⣿⣿⡿⠛⣿⣿⣧⠈⢿⠿⠟⠛⠻⠿⠄  ',
+                '  ⣰⣿⣿⠛⠻⣿⣿⡦⢹⣿⣷   ⢊⣿⣿⡏  ⢸⣿⣿⡇ ⢀⣠⣄⣾⠄   ',
+                ' ⣠⣿⠿⠛ ⢀⣿⣿⣷⠘⢿⣿⣦⡀ ⢸⢿⣿⣿⣄ ⣸⣿⣿⡇⣪⣿⡿⠿⣿⣷⡄  ',
+                ' ⠙⠃   ⣼⣿⡟  ⠈⠻⣿⣿⣦⣌⡇⠻⣿⣿⣷⣿⣿⣿ ⣿⣿⡇ ⠛⠻⢷⣄ ',
+                '      ⢻⣿⣿⣄   ⠈⠻⣿⣿⣿⣷⣿⣿⣿⣿⣿⡟ ⠫⢿⣿⡆     ',
+                '       ⠻⣿⣿⣿⣿⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⡟⢀⣀⣤⣾⡿⠃     ',
+                '                                                     ',
+            },
+            -- Header 3: VIM
+            {
+                '                                   ',
+                '                                   ',
+                '   ⣴⣶⣤⡤⠦⣤⣀⣤⠆     ⣈⣭⣭⣿⣶⣿⣦⣼⣆         ',
+                '    ⠉⠻⢿⣿⠿⣿⣿⣶⣦⠤  ⡠⢾⣿⣿⡿⠋⠉⠉⠻⣿⣿⡛⣦       ',
+                '          ⠈⢿⣿⣟⠦ ⣾⣿⣿⣷⠄⠄⠄⠄⠻⠿⢿⣿⣧⣄     ',
+                '           ⣸⣿⣿⢧ ⢻⠻⣿⣿⣷⣄⣀⠄⠢⣀⡀⠈⠙⠿     ',
+                '          ⢠⣿⣿⣿⠈  ⠡⠌⣻⣿⣿⣿⣿⣿⣿⣿⣛⣳⣤⣀⣀   ',
+                '   ⢠⣧⣶⣥⡤⢄ ⣸⣿⣿⠘⠄ ⢀⣴⣿⣿⡿⠛⣿⣿⣧⠈⢿⠿⠟⠛⠻⠿   ',
+                '  ⣰⣿⣿⠛⠻⣿⣿⡦⢹⣿⣷   ⢊⣿⣿⡏  ⢸⣿⣿⡇ ⢀⣠⣄⣾⠄   ',
+                ' ⣠⣿⠿⠛ ⢀⣿⣿⣷⠘⢿⣿⣦⡀ ⢸⢿⣿⣿⣄ ⣸⣿⣿⡇⣪⣿⡿⠿⣿⣷⡄  ',
+                ' ⠙⠃   ⣼⣿⡟  ⠈⠻⣿⣿⣦⣌⡇⠻⣿⣿⣷⣿⣿⣿ ⣿⣿⡇   ⠛⠻⢷⣄ ',
+                '      ⢻⣿⣿⣄   ⠈⠻⣿⣿⣿⣷⣿⣿⣿⣿⣿⡟ ⠫⢿⣿⡆     ',
+                '       ⠻⣿⣿⣿⣿⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⡟⢀⣀⣤⣾⡿⠃     ',
+                '                                   ',
+            },
+        }
+
+        -- Random Vim/Neovim tips
+        local tips = {
+            "Tip: Use 'ciw' to change inner word",
+            "Tip: Use '.' to repeat last change",
+            "Tip: Use '*' to search for word under cursor",
+            "Tip: Use 'gg=G' to auto-indent entire file",
+            "Tip: Use '%' to jump between matching brackets",
+            "Tip: Use 'zz' to center cursor on screen",
+            "Tip: Use 'o' to insert new line below",
+            "Tip: Use 'A' to append at end of line",
+            "Tip: Use 'I' to insert at start of line",
+            "Tip: Use 'dd' to delete (cut) a line",
+            "Tip: Use 'yy' to yank (copy) a line",
+            "Tip: Use 'p' to paste after cursor",
+            "Tip: Use 'u' to undo, <C-r> to redo",
+            "Tip: Use 'dw' to delete word",
+            "Tip: Use 'cw' to change word",
+            "Tip: Use '0' for start of line, '$' for end",
+            "Tip: Use 'gg' for file start, 'G' for end",
+            "Tip: Use '/pattern' to search forward",
+            "Tip: Use 'n' for next match, 'N' for previous",
+            "Tip: Use ':noh' to clear search highlighting",
+            "Tip: Use 'v' for visual mode, 'V' for line mode",
+            "Tip: Use '<C-v>' for visual block mode",
+            "Tip: Use ':w' to save, ':q' to quit",
+            "Tip: Use ':wq' or 'ZZ' to save and quit",
+            "Tip: Use 'qa' to record macro, 'q' to stop",
+            "Tip: Use '@a' to play macro, '@@' to repeat",
+        }
+
+        -- Time-based greeting
+        local function get_greeting()
+            local hour = tonumber(os.date '%H')
+            if hour < 6 then
+                return '🌙 Good night'
+            elseif hour < 12 then
+                return '🌅 Good morning'
+            elseif hour < 18 then
+                return '☀️  Good afternoon'
+            else
+                return '🌆 Good evening'
+            end
+        end
+
+        -- Select random header
+        math.randomseed(os.time())
+        local header_choice = headers[math.random(#headers)]
+
+        -- Add greeting to header
+        local greeting = get_greeting()
+        table.insert(header_choice, '')
+        table.insert(header_choice, '         ' .. greeting .. '!')
+        table.insert(header_choice, '')
+
+        dashboard.section.header.val = header_choice
+
+        -- Set menu buttons
+        dashboard.section.buttons.val = {
+            dashboard.button('f', '  Find file', ':Telescope find_files<CR>'),
+            dashboard.button('n', '  New file', ':ene <BAR> startinsert<CR>'),
+            dashboard.button('r', '󰄉  Recent files', ':Telescope oldfiles<CR>'),
+            dashboard.button('g', '󰱼  Find text', ':Telescope live_grep<CR>'),
+            dashboard.button('c', '  Config', ':e ~/.config/nvim/init.lua<CR>'),
+            dashboard.button('?', '  Cheat sheet', ':e ~/.config/nvim/cheatsheet.md<CR>'),
+            dashboard.button('l', '󰒲  Lazy', ':Lazy<CR>'),
+            dashboard.button('q', '  Quit', ':qa<CR>'),
+        }
+
+        -- Set footer with stats and random tip
+        local function footer()
+            local total_plugins = require('lazy').stats().count
+            local datetime = os.date ' %d-%m-%Y   %H:%M:%S'
+            local version = vim.version()
+            local nvim_version_info = '   v' .. version.major .. '.' .. version.minor .. '.' .. version.patch
+
+            -- Get startup time
+            local stats = require('lazy').stats()
+            local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
+            local startup_time = '⚡ Loaded in ' .. ms .. 'ms'
+
+            -- Random tip
+            local random_tip = tips[math.random(#tips)]
+
+            return datetime ..
+            '   ' .. total_plugins .. ' plugins' .. nvim_version_info .. '\n' .. startup_time .. '\n\n' .. random_tip
+        end
+
+        dashboard.section.footer.val = footer()
+
+        -- Apply custom highlights
+        dashboard.section.header.opts.hl = 'AlphaHeader'
+        dashboard.section.buttons.opts.hl = 'AlphaButtons'
+        dashboard.section.footer.opts.hl = 'AlphaFooter'
+
+        -- Send config to alpha
+        alpha.setup(dashboard.opts)
+
+        -- Disable folding on alpha buffer
+        vim.cmd [[autocmd FileType alpha setlocal nofoldenable]]
+
+        -- Close neo-tree when opening alpha
+        vim.api.nvim_create_autocmd('User', {
+            pattern = 'AlphaReady',
+            callback = function()
+                local status_ok, _ = pcall(vim.cmd, 'Neotree close')
+            end,
+        })
+
+        -- Custom highlight groups (optional - inherits from colorscheme by default)
+        vim.api.nvim_set_hl(0, 'AlphaHeader', { link = 'Function' })
+        vim.api.nvim_set_hl(0, 'AlphaButtons', { link = 'Keyword' })
+        vim.api.nvim_set_hl(0, 'AlphaFooter', { link = 'Comment' })
+    end,
+}
