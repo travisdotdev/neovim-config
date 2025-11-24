@@ -73,8 +73,8 @@ return {
         -- Keymaps for buffer navigation (integrates with your existing Shift+h/l)
         vim.keymap.set('n', '<leader>bp', '<cmd>BufferLinePick<cr>', { desc = '[B]uffer [P]ick' })
         vim.keymap.set('n', '<leader>bc', '<cmd>BufferLinePickClose<cr>', { desc = '[B]uffer Pick [C]lose' })
-        vim.keymap.set('n', '<leader>bmh', '<cmd>BufferLineCloseLeft<cr>', { desc = '[B]uffer Close Left ([H])' })
-        vim.keymap.set('n', '<leader>bml', '<cmd>BufferLineCloseRight<cr>', { desc = '[B]uffer Close Right ([L])' })
+        vim.keymap.set('n', '<leader>bh', '<cmd>BufferLineCloseLeft<cr>', { desc = '[B]uffer Close Left ([H])' })
+        vim.keymap.set('n', '<leader>bl', '<cmd>BufferLineCloseRight<cr>', { desc = '[B]uffer Close Right ([L])' })
 
         -- Jump to specific buffer by number (Alt+1 through Alt+9)
         for i = 1, 9 do
@@ -82,9 +82,9 @@ return {
                 { desc = 'Go to buffer ' .. i })
         end
 
-        -- Move buffers left/right
-        vim.keymap.set('n', '<leader>bh', '<cmd>BufferLineMovePrev<cr>', { desc = '[B]uffer [M]ove Left ([H])' })
-        vim.keymap.set('n', '<leader>bl', '<cmd>BufferLineMoveNext<cr>', { desc = '[B]uffer [M]ove Right ([L])' })
+        -- Add to keymaps.lua
+        vim.keymap.set('n', '<Tab>', '<cmd>bnext<cr>', { desc = 'Next buffer' })
+        vim.keymap.set('n', '<S-Tab>', '<cmd>bprevious<cr>', { desc = 'Previous buffer' })
 
         -- Pin/unpin buffer
         vim.keymap.set('n', '<leader>bP', '<cmd>BufferLineTogglePin<cr>', { desc = '[B]uffer Toggle [P]in' })
