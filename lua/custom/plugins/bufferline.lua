@@ -76,6 +76,10 @@ return {
         vim.keymap.set('n', '<leader>bh', '<cmd>BufferLineCloseLeft<cr>', { desc = '[B]uffer Close Left ([H])' })
         vim.keymap.set('n', '<leader>bl', '<cmd>BufferLineCloseRight<cr>', { desc = '[B]uffer Close Right ([L])' })
 
+        -- Alternative buffer navigation
+        vim.keymap.set('n', '<leader>[', '<cmd>bprevious<cr>', { desc = 'Previous buffer' })
+        vim.keymap.set('n', '<leader>]', '<cmd>bnext<cr>', { desc = 'Next buffer' })
+
         -- Jump to specific buffer by number (Alt+1 through Alt+9)
         for i = 1, 9 do
             vim.keymap.set('n', '<A-' .. i .. '>', '<cmd>BufferLineGoToBuffer ' .. i .. '<cr>',
