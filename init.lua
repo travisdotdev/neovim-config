@@ -93,6 +93,86 @@ vim.g.maplocalleader = ' '
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = false
 
+-- Neovide-specific settings
+if vim.g.neovide then
+  vim.g.neovide_opacity = 0.86
+  vim.o.guifont = 'Cascadia Code:h13' -- ============================================================
+  -- CURSOR PRESETS - Uncomment ONE section at a time
+  -- ============================================================
+
+  -- -- PRESET 1: Minimal & Clean (no particles, fast and subtle)
+  -- vim.g.neovide_cursor_animation_length = 0.03
+  -- vim.g.neovide_cursor_trail_size = 0.2
+  -- vim.g.neovide_cursor_antialiasing = true
+  -- vim.g.neovide_cursor_vfx_mode = '' -- No particles
+
+  -- -- PRESET 2: Balanced Railgun (recommended default)
+  -- vim.g.neovide_cursor_animation_length = 0.05
+  -- vim.g.neovide_cursor_trail_size = 0.3
+  -- vim.g.neovide_cursor_antialiasing = true
+  -- vim.g.neovide_cursor_vfx_mode = 'railgun'
+  -- vim.g.neovide_cursor_vfx_opacity = 150.0
+  -- vim.g.neovide_cursor_vfx_particle_lifetime = 1.0
+  -- vim.g.neovide_cursor_vfx_particle_density = 5.0
+
+  -- PRESET 3: Torpedo Ripples (circular waves)
+  -- vim.g.neovide_cursor_animation_length = 0.05
+  -- vim.g.neovide_cursor_trail_size = 0.3
+  -- vim.g.neovide_cursor_antialiasing = true
+  -- vim.g.neovide_cursor_vfx_mode = "torpedo"
+  -- vim.g.neovide_cursor_vfx_opacity = 180.0
+  -- vim.g.neovide_cursor_vfx_particle_lifetime = 1.2
+  -- vim.g.neovide_cursor_vfx_particle_density = 7.0
+
+  -- PRESET 4: Pixiedust Magic (sparkly particles)
+  -- vim.g.neovide_cursor_animation_length = 0.06
+  -- vim.g.neovide_cursor_trail_size = 0.4
+  -- vim.g.neovide_cursor_antialiasing = true
+  -- vim.g.neovide_cursor_vfx_mode = "pixiedust"
+  -- vim.g.neovide_cursor_vfx_opacity = 200.0
+  -- vim.g.neovide_cursor_vfx_particle_lifetime = 1.5
+  -- vim.g.neovide_cursor_vfx_particle_density = 10.0
+
+  -- -- PRESET 5: Sonic Boom (speed lines)
+  -- vim.g.neovide_cursor_animation_length = 0.04
+  -- vim.g.neovide_cursor_trail_size = 0.5
+  -- vim.g.neovide_cursor_antialiasing = true
+  -- vim.g.neovide_cursor_vfx_mode = 'sonicboom'
+  -- vim.g.neovide_cursor_vfx_opacity = 180.0
+  -- vim.g.neovide_cursor_vfx_particle_lifetime = 0.8
+  -- vim.g.neovide_cursor_vfx_particle_density = 6.0
+
+  -- PRESET 6: Ripple Effect (water waves)
+  -- vim.g.neovide_cursor_animation_length = 0.05
+  -- vim.g.neovide_cursor_trail_size = 0.3
+  -- vim.g.neovide_cursor_antialiasing = true
+  -- vim.g.neovide_cursor_vfx_mode = "ripple"
+  -- vim.g.neovide_cursor_vfx_opacity = 160.0
+  -- vim.g.neovide_cursor_vfx_particle_lifetime = 1.3
+  -- vim.g.neovide_cursor_vfx_particle_density = 8.0
+
+  -- --[[   PRESET 7: Wireframe (neon grid) ]]
+  -- vim.g.neovide_cursor_animation_length = 0.05
+  -- vim.g.neovide_cursor_trail_size = 0.4
+  -- vim.g.neovide_cursor_antialiasing = true
+  -- vim.g.neovide_cursor_vfx_mode = 'wireframe'
+  -- vim.g.neovide_cursor_vfx_opacity = 190.0
+  -- vim.g.neovide_cursor_vfx_particle_lifetime = 1.0
+  -- vim.g.neovide_cursor_vfx_particle_density = 7.0
+
+  -- Smooth cursor with subtle trail (no particles)
+  vim.g.neovide_cursor_animation_length = 0.10
+  vim.g.neovide_cursor_trail_size = 0.8
+  vim.g.neovide_cursor_antialiasing = true
+  vim.g.neovide_cursor_vfx_mode = '' -- No particle effects
+
+  -- Other useful settings
+  vim.g.neovide_refresh_rate = 60
+  vim.g.neovide_confirm_quit = true
+  vim.g.neovide_remember_window_size = true
+  vim.g.neovide_hide_mouse_when_typing = false
+end
+
 -- [[ Setting options ]]
 -- See `:help vim.o`
 -- NOTE: You can change these options as you wish!
