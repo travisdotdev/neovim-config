@@ -115,8 +115,7 @@ if vim.g.neovide then
   -- vim.g.neovide_cursor_vfx_particle_lifetime = 1.0
   -- vim.g.neovide_cursor_vfx_particle_density = 5.0
 
-  -- PRESET 3: Torpedo Ripples (circular waves)
-  -- vim.g.neovide_cursor_animation_length = 0.05
+  -- PRESET 3: Torpedo Ripples (circular waves) vim.g.neovide_cursor_animation_length = 0.05
   -- vim.g.neovide_cursor_trail_size = 0.3
   -- vim.g.neovide_cursor_antialiasing = true
   -- vim.g.neovide_cursor_vfx_mode = "torpedo"
@@ -161,8 +160,8 @@ if vim.g.neovide then
   -- vim.g.neovide_cursor_vfx_particle_density = 7.0
 
   -- Smooth cursor with subtle trail (no particles)
-  vim.g.neovide_cursor_animation_length = 0.10
-  vim.g.neovide_cursor_trail_size = 0.8
+  vim.g.neovide_cursor_animation_length = 0.20
+  vim.g.neovide_cursor_trail_size = 0.30
   vim.g.neovide_cursor_antialiasing = true
   vim.g.neovide_cursor_vfx_mode = '' -- No particle effects
 
