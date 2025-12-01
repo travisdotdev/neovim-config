@@ -95,7 +95,7 @@ vim.g.have_nerd_font = false
 
 -- Neovide-specific settings
 if vim.g.neovide then
-  vim.g.neovide_opacity = 0.86
+  vim.g.neovide_opacity = 0.85
   vim.o.guifont = 'Cascadia Code:h13' -- ============================================================
   -- CURSOR PRESETS - Uncomment ONE section at a time
   -- ============================================================
