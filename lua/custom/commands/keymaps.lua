@@ -173,3 +173,7 @@ vim.keymap.set('n', '<leader>?', function()
 end, { desc = 'Open cheat sheet' })
 -- Open dashboard
 vim.keymap.set('n', '<leader>a', '<cmd>lua Snacks.dashboard()<cr>', { desc = 'Open d[A]shboard' })
+-- Toggle showing hidden files in Telescope
+vim.keymap.set('n', '<leader>sH', function()
+    require('telescope.builtin').find_files { hidden = true }
+end, { desc = '[S]earch files (include [H]idden)' })
