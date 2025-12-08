@@ -6,41 +6,14 @@ return {
         'mfussenegger/nvim-dap-python',
     },
     lazy = false,
+    branch = 'regexp', -- Use the regexp branch (more stable)
     config = function()
         require('venv-selector').setup {
-            -- Your options here
-            -- name = "venv", -- Change this if you use a different name for your venvs
             name = {
                 'venv',
                 '.venv',
                 'env',
                 '.env',
-            },
-            auto_refresh = true,
-            search_venv_managers = true, -- Search for virtualenv/pyenv/conda/poetry
-            search = true,
-            search_workspace = true,
-
-            -- Automatically activate venv when opening a Python file
-            changed_venv_hooks = {
-                -- Update LSP (Pyright) when venv changes
-                function(venv_path, prev_venv_path)
-                    local venv_python = venv_path .. '/bin/python'
-                    require('lspconfig').pyright.setup {
-                        settings = {
-                            python = {
-                                pythonPath = venv_python,
-                            },
-                        },
-                    }
-                end,
-                -- Update DAP (debugger) when venv changes
-                function(venv_path, prev_venv_path)
-                    local venv_python = venv_path .. '/bin/python'
-                    require('dap-python').resolve_python = function()
-                        return venv_python
-                    end
-                end,
             },
         }
 
