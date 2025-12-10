@@ -21,7 +21,7 @@ return {
             modified_icon = '●',
             left_trunc_marker = '',
             right_trunc_marker = '',
-            max_name_length = 30,
+            max_name_length = 31,
             max_prefix_length = 30, -- prefix used when a buffer is de-duplicated
             tab_size = 21,
             diagnostics = false,
