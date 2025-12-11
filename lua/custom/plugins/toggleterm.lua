@@ -13,7 +13,7 @@ return {
             direction = 'horizontal', -- Opens at bottom by default
             open_mapping = nil, -- Disable default <C-\> mapping
             shade_terminals = true,
-            start_in_insert = true,
+            start_in_insert = false,
             persist_size = true,
             close_on_exit = true,
 
