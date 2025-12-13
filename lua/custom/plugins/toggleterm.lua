@@ -45,7 +45,7 @@ return {
         vim.keymap.set('n', '<leader>tp', ':resize +5<cr>', { desc = 'Increase window height' })
         vim.keymap.set('n', '<leader>to', ':resize -5<cr>', { desc = 'Decrease window height' })
 
-        -- Optional: Floating terminal for variety
-        vim.keymap.set('n', '<leader>tqo', '<cmd>ToggleTerm direction=float<cr>', { desc = 'Floating terminal' })
+        -- -- Optional: Floating terminal for variety
+        -- vim.keymap.set('n', '<leader>tqo', '<cmd>ToggleTerm direction=float<cr>', { desc = 'Floating terminal' })
     end,
 }
