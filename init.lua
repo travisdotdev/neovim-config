@@ -84,11 +84,6 @@ if vim.g.neovide then
   vim.g.neovide_hide_mouse_when_typing = false
 end
 
--- [[ Setting options ]]
--- See `:help vim.o`
--- NOTE: You can change these options as you wish!
---  For more options, you can see `:help option-list`
-
 -- Make line numbers default
 vim.o.number = true
 vim.o.relativenumber = true
