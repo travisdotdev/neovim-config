@@ -96,7 +96,7 @@ vim.o.showmode = false
 --  See `:help 'clipboard'`
 vim.schedule(function()
   vim.o.clipboard = 'unnamedplus'
-end)
+end
 
 -- Enable break indent
 vim.o.breakindent = true
@@ -111,7 +111,6 @@ vim.o.smartcase = true
 -- Keep signcolumn on by default
 vim.o.signcolumn = 'yes'
 
--- Decrease update time
 vim.o.updatetime = 250
 
 -- Decrease mapped sequence wait time
