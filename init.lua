@@ -84,7 +84,6 @@ if vim.g.neovide then
   vim.g.neovide_hide_mouse_when_typing = false
 end
 
--- Make line numbers default
 vim.o.number = true
 vim.o.relativenumber = true
 vim.o.mouse = 'a'
