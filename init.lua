@@ -8,7 +8,6 @@ if vim.g.neovide then
   vim.g.neovide_opacity = 0.85
   vim.o.guifont = 'Cascadia Code:h12'
 
-  -- ============================================================
   -- CURSOR PRESETS - Uncomment ONE section at a time
   -- ============================================================
 
