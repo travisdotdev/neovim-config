@@ -1,3 +1,6 @@
+-- Set <space> as the leader key
+-- See `:help mapleader`
+--  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
@@ -8,6 +11,7 @@ if vim.g.neovide then
   vim.g.neovide_opacity = 0.85
   vim.o.guifont = 'Cascadia Code:h12'
 
+  -- ============================================================
   -- CURSOR PRESETS - Uncomment ONE section at a time
   -- ============================================================
 
@@ -83,16 +87,24 @@ if vim.g.neovide then
   vim.g.neovide_hide_mouse_when_typing = false
 end
 
+-- [[ Setting options ]]
+-- See `:help vim.o`
+-- NOTE: You can change these options as you wish!
+--  For more options, you can see `:help option-list`
+
+-- Make line numbers default
 vim.o.number = true
 vim.o.relativenumber = true
 vim.o.mouse = 'a'
 vim.o.showmode = false
 
 -- Sync clipboard between OS and Neovim.
+--  Schedule the setting after `UiEnter` because it can increase startup-time.
 --  Remove this option if you want your OS clipboard to remain independent.
+--  See `:help 'clipboard'`
 vim.schedule(function()
   vim.o.clipboard = 'unnamedplus'
-end
+end)
 
 -- Enable break indent
 vim.o.breakindent = true
@@ -107,6 +119,7 @@ vim.o.smartcase = true
 -- Keep signcolumn on by default
 vim.o.signcolumn = 'yes'
 
+-- Decrease update time
 vim.o.updatetime = 250
 
 -- Decrease mapped sequence wait time
