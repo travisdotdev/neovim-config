@@ -16,14 +16,14 @@ return {
                 'prettier',
                 'eslint_d',
                 'shfmt',
-                'ruff', -- Python linting and formatting
+                'ruff',
             },
             automatic_installation = true,
         }
 
         local sources = {
             diagnostics.checkmake,
-            formatting.prettier.with { filetypes = { 'html', 'json', 'yaml', 'markdown' } },
+            formatting.prettier.with { filetypes = { 'html', 'json', 'yaml', 'markdown', 'javascript', 'typescript', 'javascriptreact', 'typescriptreact' } },
             formatting.stylua,
             formatting.shfmt.with { args = { '-i', '4' } },
             formatting.terraform_fmt,
@@ -31,6 +31,7 @@ return {
             -- Python: Ruff for linting and formatting
             require 'none-ls.diagnostics.ruff',
             require 'none-ls.formatting.ruff_format',
+            -- require 'none-ls.diagnostics.eslint_d',
         }
 
         local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
