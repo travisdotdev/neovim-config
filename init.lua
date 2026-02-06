@@ -28,9 +28,6 @@ vim.o.mouse = 'a'
 vim.o.showmode = false
 
 -- Sync clipboard between OS and Neovim.
---  Schedule the setting after `UiEnter` because it can increase startup-time.
---  Remove this option if you want your OS clipboard to remain independent.
---  See `:help 'clipboard'`
 vim.schedule(function()
   vim.o.clipboard = 'unnamedplus'
 end)
@@ -456,9 +453,9 @@ require('lazy').setup({
           --
           -- This may be unwanted, since they displace some of your code
           if client and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
-            map('<leader>th', function()
+            map('<leader>H', function()
               vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
-            end, '[T]oggle Inlay [H]ints')
+            end, '[H]ints [I]nlay toggle')
           end
         end,
       })
