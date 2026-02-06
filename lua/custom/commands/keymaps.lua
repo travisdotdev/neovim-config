@@ -177,3 +177,21 @@ vim.keymap.set('n', '<leader>a', '<cmd>lua Snacks.dashboard()<cr>', { desc = 'Op
 vim.keymap.set('n', '<leader>sH', function()
     require('telescope.builtin').find_files { hidden = true }
 end, { desc = '[S]earch files (include [H]idden)' })
+
+-- ==============================================================================
+-- NEOVIDE ZOOM
+-- ==============================================================================
+
+if vim.g.neovide then
+    vim.keymap.set('n', '<leader>=', function()
+        vim.g.neovide_scale_factor = vim.g.neovide_scale_factor * 1.1
+    end, { desc = 'Zoom in' })
+
+    vim.keymap.set('n', '<leader>-', function()
+        vim.g.neovide_scale_factor = vim.g.neovide_scale_factor * 0.9
+    end, { desc = 'Zoom out' })
+
+    vim.keymap.set('n', '<leader>0', function()
+        vim.g.neovide_scale_factor = 1.0
+    end, { desc = 'Reset zoom' })
+end
