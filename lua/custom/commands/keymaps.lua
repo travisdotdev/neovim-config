@@ -172,7 +172,7 @@ vim.keymap.set('n', '<leader>?', function()
     vim.cmd 'e ~/.config/nvim/cheatsheet.md'
 end, { desc = 'Open cheat sheet' })
 -- Open dashboard
-vim.keymap.set('n', '<leader>a', '<cmd>lua Snacks.dashboard()<cr>', { desc = 'Open d[A]shboard' })
+vim.keymap.set('n', '<leader>ad', '<cmd>lua Snacks.dashboard()<cr>', { desc = 'Open d[A]shboard' })
 -- Toggle showing hidden files in Telescope
 vim.keymap.set('n', '<leader>sH', function()
     require('telescope.builtin').find_files { hidden = true }
@@ -195,3 +195,12 @@ if vim.g.neovide then
         vim.g.neovide_scale_factor = 1.0
     end, { desc = 'Reset zoom' })
 end
+
+-- ==============================================================================
+-- AVANTE AI
+-- ==============================================================================
+
+vim.keymap.set('n', '<leader>aa', '<cmd>AvanteAsk<cr>', { desc = '[A]vante [A]sk' })
+vim.keymap.set('v', '<leader>aa', '<cmd>AvanteAsk<cr>', { desc = '[A]vante [A]sk (selection)' })
+vim.keymap.set('n', '<leader>at', '<cmd>AvanteToggle<cr>', { desc = '[A]vante [T]oggle' })
+vim.keymap.set('n', '<leader>ar', '<cmd>AvanteRefresh<cr>', { desc = '[A]vante [R]efresh' })
