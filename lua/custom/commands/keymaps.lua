@@ -195,12 +195,3 @@ if vim.g.neovide then
         vim.g.neovide_scale_factor = 1.0
     end, { desc = 'Reset zoom' })
 end
-
--- ==============================================================================
--- AVANTE AI
--- ==============================================================================
-
-vim.keymap.set('n', '<leader>aa', '<cmd>AvanteAsk<cr>', { desc = '[A]vante [A]sk' })
-vim.keymap.set('v', '<leader>aa', '<cmd>AvanteAsk<cr>', { desc = '[A]vante [A]sk (selection)' })
-vim.keymap.set('n', '<leader>at', '<cmd>AvanteToggle<cr>', { desc = '[A]vante [T]oggle' })
-vim.keymap.set('n', '<leader>ar', '<cmd>AvanteRefresh<cr>', { desc = '[A]vante [R]efresh' })

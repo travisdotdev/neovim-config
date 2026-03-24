@@ -3,8 +3,94 @@ return {
     priority = 1000,
     lazy = false,
     opts = function()
-        ---@diagnostic disable: undefined-global
-        -- Collection of ASCII art headers
+        -- ================================================================
+        -- System stats
+        -- ================================================================
+        local function term_cmd(cmd)
+            return vim.trim(vim.fn.system(cmd))
+        end
+
+        local function gen_graph(percent, width)
+            percent = math.max(0, math.min(tonumber(percent) or 0, 100))
+            width = width or 20
+            local filled = math.floor((percent / 100) * width + 0.5)
+            return '[' .. string.rep('=', filled) .. string.rep('-', width - filled) .. ']'
+        end
+
+        -- Try fastfetch first (one call gets everything)
+        local ff = nil
+        if term_cmd 'command -v fastfetch' ~= '' then
+            local json = term_cmd 'fastfetch -s CPUUsage:Memory:Disk --format json'
+            local ok, data = pcall(vim.json.decode, json)
+            if ok and data then
+                ff = {}
+                for _, item in ipairs(data) do
+                    if item.type == 'CPUUsage' and item.result then
+                        local sum = 0
+                        for _, v in ipairs(item.result) do
+                            sum = sum + v
+                        end
+                        ff.cpu = math.floor(sum / #item.result + 0.5)
+                    elseif item.type == 'Memory' and item.result then
+                        ff.ram_used = math.floor(tonumber(item.result.used) / 1024 ^ 3 * 10) / 10
+                        ff.ram_total = math.floor(tonumber(item.result.total) / 1024 ^ 3 * 10) / 10
+                    elseif item.type == 'Disk' and item.result and item.result[1] then
+                        ff.disk_used = math.floor(tonumber(item.result[1].bytes.used) / 1000 ^ 3 + 0.5)
+                        ff.disk_total = math.floor(tonumber(item.result[1].bytes.total) / 1000 ^ 3 + 0.5)
+                    end
+                end
+            end
+        end
+
+        -- CPU (only reliable as a % when fastfetch is available)
+        local cpu = (ff and ff.cpu) or 0
+
+        -- RAM
+        local ram_used, ram_total
+        if ff and ff.ram_used then
+            ram_used, ram_total = ff.ram_used, ff.ram_total
+        elseif vim.fn.has 'mac' == 1 then
+            local vm = term_cmd 'vm_stat'
+            local ps = 4096
+            local a = tonumber(vm:match 'Pages active:%s*(%d+)') or 0
+            local i = tonumber(vm:match 'Pages inactive:%s*(%d+)') or 0
+            local w = tonumber(vm:match 'Pages wired down:%s*(%d+)') or 0
+            local tb = tonumber(term_cmd('sysctl -n hw.memsize'):gsub('%D', '')) or (8 * 1024 ^ 3)
+            ram_used = math.floor((a + i + w) * ps / 1024 ^ 3 * 10) / 10
+            ram_total = math.floor(tb / 1024 ^ 3 * 10) / 10
+        else
+            local out = term_cmd "free -m | awk '/Mem:/ {print $3, $2}'"
+            local u, t = out:match '(%d+)%s+(%d+)'
+            ram_used = math.floor((tonumber(u) or 0) / 1024 * 10) / 10
+            ram_total = math.floor((tonumber(t) or 1) / 1024 * 10) / 10
+        end
+        local ram_pct = ram_total > 0 and (ram_used / ram_total * 100) or 0
+
+        -- Disk
+        local disk_used, disk_total
+        if ff and ff.disk_used then
+            disk_used, disk_total = ff.disk_used, ff.disk_total
+        else
+            local mount = vim.fn.has 'mac' == 1 and '/System/Volumes/Data' or '/'
+            local flag = vim.fn.has 'mac' == 1 and '-H' or '-h'
+            local out = term_cmd('df ' .. flag .. ' ' .. mount .. " | awk 'NR==2 {print $3, $2}'")
+            local u, t = out:match '([%d%.]+)[GMKTB]?%s+([%d%.]+)[GMKTB]?'
+            disk_used = math.floor((tonumber(u) or 0) + 0.5)
+            disk_total = math.floor((tonumber(t) or 1) + 0.5)
+        end
+        local disk_pct = disk_total > 0 and (disk_used / disk_total * 100) or 0
+
+        local stats = table.concat({
+            '╭────────┬─────────────────────────────────────────╮',
+            string.format('│ CPU    │ %-16s %s │', cpu .. '%', ' ' .. gen_graph(cpu)),
+            string.format('│ RAM    │ %-16s %s │', ram_used .. '/' .. ram_total .. ' GB', ' ' .. gen_graph(ram_pct)),
+            string.format('│ DISK   │ %-16s %s │', disk_used .. '/' .. disk_total .. ' GB', ' ' .. gen_graph(disk_pct)),
+            '╰────────┴─────────────────────────────────────────╯',
+        }, '\n')
+
+        -- ================================================================
+        -- Header
+        -- ================================================================
         local headers = {
             [[
      ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗
@@ -12,49 +98,33 @@ return {
      ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║
      ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║
      ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║
-     ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝
-      ]],
+     ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝]],
 
             [[
     _   __                _
    / | / /__  ____ _   __(_)___ ___
   /  |/ / _ \/ __ \ | / / / __ `__ \
  / /|  /  __/ /_/ / |/ / / / / / / /
-/_/ |_/\___/\____/|___/_/_/ /_/ /_/
-      ]],
+/_/ |_/\___/\____/|___/_/_/ /_/ /_/]],
 
             [[
 ┌┐┌┌─┐┌─┐┬  ┬┬┌┬┐
 │││├┤ │ │└┐┌┘││││
-┘└┘└─┘└─┘ └┘ ┴┴ ┴
-      ]],
-            [[
-
- ███▄    █ ▓█████  ▒█████   ██▒   █▓ ██▓ ███▄ ▄███▓
- ██ ▀█   █ ▓█   ▀ ▒██▒  ██▒▓██░   █▒▓██▒▓██▒▀█▀ ██▒
-▓██  ▀█ ██▒▒███   ▒██░  ██▒ ▓██  █▒░▒██▒▓██    ▓██░
-▓██▒  ▐▌██▒▒▓█  ▄ ▒██   ██░  ▒██ █░░░██░▒██    ▒██
-▒██░   ▓██░░▒████▒░ ████▓▒░   ▒▀█░  ░██░▒██▒   ░██▒
-░ ▒░   ▒ ▒ ░░ ▒░ ░░ ▒░▒░▒░    ░ ▐░  ░▓  ░ ▒░   ░  ░
-░ ░░   ░ ▒░ ░ ░  ░  ░ ▒ ▒░    ░ ░░   ▒ ░░  ░      ░
-   ░   ░ ░    ░   ░ ░ ░ ▒       ░░   ▒ ░░      ░
-         ░    ░  ░    ░ ░        ░   ░         ░
-                                ░
-      ]],
+┘└┘└─┘└─┘ └┘ ┴┴ ┴]],
         }
 
-        -- Select random header
         math.randomseed(os.time())
-        local header = headers[math.random(#headers)]
+        local header = headers[math.random(#headers)] .. '\n\n' .. stats
 
+        -- ================================================================
+        -- Plugin config
+        -- ================================================================
         return {
-            -- Enable the components you want
             bigfile = { enabled = true },
             dashboard = {
                 enabled = true,
                 preset = {
                     header = header,
-                    -- stylua: ignore
                     ---@type snacks.dashboard.Item[]
                     keys = {
                         { icon = ' ', key = 'f', desc = 'Find File', action = ':Telescope find_files' },
@@ -70,17 +140,10 @@ return {
                 },
                 sections = {
                     { section = 'header' },
-                    { section = 'keys',  gap = 1,    padding = 1 },
-                    -- {
-                    --     pane = 2,
-                    --     section = 'terminal',
-                    --     cmd = 'fortune -s | cowsay',
-                    --     height = 8,
-                    --     padding = 1,
-                    --     indent = 4,
-                    -- },
-                    { pane = 2,          icon = ' ', title = 'Recent Files', section = 'recent_files', indent = 2, padding = 1 },
-                    { pane = 2,          icon = ' ', title = 'Projects',     section = 'projects',     indent = 2, padding = 1 },
+                    { section = 'keys',   gap = 1,    padding = 1 },
+                    { section = 'startup' },
+                    { pane = 2,           icon = ' ', title = 'Recent Files', section = 'recent_files', indent = 2, padding = 1 },
+                    { pane = 2,           icon = ' ', title = 'Projects',     section = 'projects',     indent = 2, padding = 1 },
                     {
                         pane = 2,
                         icon = ' ',
@@ -93,8 +156,10 @@ return {
                         height = 5,
                         padding = 1,
                         indent = 3,
+                        win = {
+                            winhighlight = 'Normal:Normal,NormalNC:Normal,NormalFloat:Normal',
+                        },
                     },
-                    { section = 'startup' },
                 },
             },
             notifier = { enabled = true },
@@ -104,7 +169,7 @@ return {
             words = { enabled = true },
             styles = {
                 notification = {
-                    wo = { wrap = true }, -- Wrap notifications
+                    wo = { wrap = true },
                 },
             },
         }
@@ -194,12 +259,18 @@ return {
             end,
             desc = 'Prev Reference',
         },
+        {
+            '<leader>ad',
+            function()
+                Snacks.dashboard()
+            end,
+            desc = 'Open d[A]shboard',
+        },
     },
     init = function()
         vim.api.nvim_create_autocmd('User', {
             pattern = 'VeryLazy',
             callback = function()
-                -- Create some toggle functions
                 _G.dd = function(...)
                     Snacks.debug.inspect(...)
                 end
@@ -208,7 +279,6 @@ return {
                 end
                 vim.print = _G.dd
 
-                -- Setup some useful vim.notify overrides
                 ---@diagnostic disable-next-line: duplicate-set-field
                 vim.notify = function(msg, level, opts)
                     return Snacks.notifier.notify(msg, level, opts)

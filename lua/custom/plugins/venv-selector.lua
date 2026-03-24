@@ -6,7 +6,6 @@ return {
         'mfussenegger/nvim-dap-python',
     },
     lazy = false,
-    branch = 'main', -- Use the regexp branch (more stable)
     config = function()
         require('venv-selector').setup {
             name = {
