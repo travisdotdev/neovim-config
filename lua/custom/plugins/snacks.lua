@@ -49,15 +49,6 @@ return {
         local ram_used, ram_total
         if ff and ff.ram_used then
             ram_used, ram_total = ff.ram_used, ff.ram_total
-        elseif vim.fn.has 'mac' == 1 then
-            local vm = term_cmd 'vm_stat'
-            local ps = 4096
-            local a = tonumber(vm:match 'Pages active:%s*(%d+)') or 0
-            local i = tonumber(vm:match 'Pages inactive:%s*(%d+)') or 0
-            local w = tonumber(vm:match 'Pages wired down:%s*(%d+)') or 0
-            local tb = tonumber(term_cmd('sysctl -n hw.memsize'):gsub('%D', '')) or (8 * 1024 ^ 3)
-            ram_used = math.floor((a + i + w) * ps / 1024 ^ 3 * 10) / 10
-            ram_total = math.floor(tb / 1024 ^ 3 * 10) / 10
         else
             local out = term_cmd "free -m | awk '/Mem:/ {print $3, $2}'"
             local u, t = out:match '(%d+)%s+(%d+)'
