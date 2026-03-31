@@ -5,7 +5,7 @@ return {
         'mfussenegger/nvim-dap',
     },
     config = function()
-        -- Hardcode your venv path for now
+        -- Hardcode your venv path
         local venv_python = vim.fn.getcwd() .. '/venv/bin/python'
 
         -- Check if venv exists, otherwise fallback to Mason
